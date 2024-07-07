@@ -1,4 +1,3 @@
-import{Link} from "react-router-dom";
 import {useState} from "react";
 
 
@@ -28,18 +27,52 @@ export default function Home(props){
             })
         }).then(res=>res.json())
             .then(data => {
-                const response = data
-                console.log(response)
-                setUserDatas(response)
-
+                setUserDatas(data)
             })
+            .catch(err => console.log(err));
+    }
+
+    const updateData = async() => {
+        return fetch("http://localhost:8080/update", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: document.querySelector("#id").value,
+                name: document.querySelector("#name").value
+            })
+        }).then(res=>res.json())
+            .then(data => {
+                setUserDatas(data)
+            })
+            .catch(err => console.log(err));
+    }
+
+    const deleteData = async() => {
+        return fetch("http://localhost:8080/delete", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: parseInt(document.querySelector("#id").value)
+            })
+        }).then(res=>res.json())
+            .then(data => {
+                setUserDatas(data)
+            })
+            .catch(err => console.log(err));
     }
 
     return (
         <div>
             <h1>Home</h1>
             <input type="button" value="Read Data" onClick={getData}/>
-            <input type="button" value="Create Data" onClick={createData}/><br/>
+            <input type="button" value="Create Data" onClick={createData}/>
+            <input type="button" value="Update Data" onClick={updateData}/>
+            <input type="button" value="Delete Data" onClick={deleteData}/><br/>
+            id: <input id="id" type="text" placeholder="id"/><br/><br/>
             name: <input id="name" type="text" placeholder="Name"/><br/>
             password: <input id="password" type="password" placeholder="Password"/><br/>
 
