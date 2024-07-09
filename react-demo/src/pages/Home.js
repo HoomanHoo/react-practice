@@ -2,19 +2,20 @@ import {useState} from "react";
 
 
 export default function Home(props){
+    // useState 함수는 데이터를 담을 수 있는 변수와 setter를 리턴하며 매개변수로 설정하고자 하는 초기값을 받는다
     const {userData, setUserData} = useState("");
     const [userDatas, setUserDatas] = useState([]);
 
+    // 데이터 Read
     const getData = async() =>{
          return fetch("http://localhost:8080/list")
             .then(res=>res.json())
-
              .then(data => {
                  const response = data
-
-                            setUserDatas(response)});
+                 setUserDatas(response)});
     }
 
+    // 데이터 insert
     const createData = async() => {
         return fetch("http://localhost:8080/create", {
             method: "POST",
@@ -32,6 +33,7 @@ export default function Home(props){
             .catch(err => console.log(err));
     }
 
+    // 데이터 update
     const updateData = async() => {
         return fetch("http://localhost:8080/update", {
             method: "PUT",
@@ -49,6 +51,7 @@ export default function Home(props){
             .catch(err => console.log(err));
     }
 
+    // 데이터 delete
     const deleteData = async() => {
         return fetch("http://localhost:8080/delete", {
             method: "DELETE",
